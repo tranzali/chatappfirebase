@@ -1,8 +1,7 @@
-import './App.css';
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
-
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+import 'firebase/compat/auth'
+import { GoogleAuthProvider } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
@@ -25,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        
+  
       </header>
 
       <section>
@@ -37,7 +36,7 @@ function App() {
 
 function SignIn() {
   const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
+    const provider = new GoogleAuthProvider()
     auth.signInWithGoogle(provider)
   }
 
@@ -61,14 +60,14 @@ function ChatRoom() {
   return (
     <>
       <div>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+          {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
       </div>
     </>
   )
 }
 
 function ChatMessage(props){
-  const { text, uid } = props.messages
+  const { text, uid } = props.message
 
   return <p>{text}</p>
 }
