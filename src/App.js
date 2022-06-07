@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-  
+        <SignOut />
       </header>
 
       <section>
@@ -39,17 +39,17 @@ function App() {
 function SignIn() {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider()
-    auth.signInWithGoogle(provider)
+    auth.signInWithPopup(provider)
   }
 
   return (
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <button className='sign-in' onClick={signInWithGoogle}>Sign in with Google</button>
   )
 }
 
 function SignOut() {
   return auth.currentUser && (
-    <button onClick={() => auth.signOut()}>Sign Out</button>
+    <button className='sign-out' onClick={() => auth.signOut()}>Sign Out</button>
   )
 }
 
@@ -65,7 +65,9 @@ function ChatRoom() {
 
   const sendMessage = async(e) => {
     e.preventDefault()
+
     const { uid, photoURL } = auth.currentUser
+    
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -90,7 +92,7 @@ function ChatRoom() {
 
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
 
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!formValue}>Submit</button>
 
       </form>
     </>
@@ -104,7 +106,7 @@ function ChatMessage(props){
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} alt="" />
+      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'}  alt="" />
       <p>{text}</p>
     </div>
   )
